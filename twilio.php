@@ -1,16 +1,23 @@
 <?php
 
-$bn = $_REQUEST['Body'];
+$search = $_REQUEST['Body'];
 
-$search = search_schools($bn);
+$bn = search_schools($search);
 
-if (!empty($search)) {
+if (!empty($bn)) {
 
-	$check = search_impacted_schools($search);
+	$check = search_impacted_schools($bn);
 
 	if (!empty($check)) {
 
-		$response = "School has been relocated to " . $check;
+		$r_name = $check['receiving_name'];
+		$r_name = ucwords(strtolower($r_name));
+		$r_address = $check['receiving_address'];
+		$r_address = ucwords(strtolower($r_address));
+		$r_studentopen = $check['studentopen'];		
+	
+
+		$response = "School has been relocated to " . $r_name . ' at ' . $r_address . '. Opens for students on ' . $r_studentopen;
 
 	}
 	else {
@@ -50,7 +57,7 @@ function search_impacted_schools($bn) {
 	$data = curl_to_json($url);	
 	
 	if (!empty($data[0]['receiving_bn'])) {
-		return $data[0]['receiving_name'];
+		return $data[0];
 	}
 	else {
 		return false;
