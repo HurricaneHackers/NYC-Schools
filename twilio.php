@@ -104,13 +104,13 @@ function curl_to_json($url) {
 }
 
 //checks to see if open date has passed, changes message accordingly
-function check_date($r_studentopen) {
+function check_date($open_date) {
   $today = date('m/d/Y');
   
-  $r_studentopen_secs = strtotime($r_studentopen);
+  $open_date_secs = strtotime($open_date);
   $today_secs = strtotime($today);
   
-  ($r_studentopen_secs < $today_secs) ? return "Opens on: " . $r_studentopen_secs : "Opened on: " . $r_studentopen_secs;
+  ($open_date_secs < $today_secs) ? return "Opens on: " . $open_date : "Opened on: " . $open_date;
 }
 
 
