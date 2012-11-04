@@ -2,17 +2,18 @@
 
 $search = $_REQUEST['Body'];
 
-$bn = search_schools($search);
+$school = search_schools($search);
 
-if (!empty($bn)) {
+if (!empty($school)) {
 
+	$bn = $school['locationCode'];
+	$name = ucwords(strtolower($school['name']));
+		
 	$check = search_impacted_schools($bn);
 
 
 	if (!empty($check)) {
 
-		$name = $check['name'];
-		$name = ucwords(strtolower($name));
 		$r_name = $check['receiving_name'];
 		$r_name = ucwords(strtolower($r_name));
 		$r_address = $check['receiving_address'];
@@ -25,7 +26,7 @@ if (!empty($bn)) {
 	}
 	else {
 
-		$response = "$name: open as normal." . ' ' . check_date('Monday November 11');
+		$response = "$name is open as normal." . ' ' . check_date('Monday November 11');
 
 	}
 
@@ -80,7 +81,7 @@ function search_schools($search) {
 	$data = curl_to_json($url);	
 	
 	if (!empty($data['result']['items'][0]['locationCode'])) {
-		return $data['result']['items'][0]['locationCode']; //['items'][0]['dUSInformation']['locationCode'];
+		return $data['result']['items'][0]; //['items'][0]['dUSInformation']['locationCode'];
 	}
 	else {
 		return false;
@@ -110,15 +111,13 @@ function check_date($open_date) {
   $open_date_secs = strtotime($open_date);
   
   if ($open_date_secs > time()) {
-	  return "Opens on " . $open_date ".";
-	}
-	//if it has been less than a week since the school opened show opening date
-	elseif ($open_date_secs + 604800 > time()) {
- 	  return "Opened on " . $open_date ".";
+	$response = "Opens on $open_date.";
+	} elseif (($open_date_secs + 604800) > time()) {
+ 	  $response =  "Opened on $open_date.";
 	}	
 	//else show nothing
 	else {
-	  return "";
+	  return $response;
 	}
 }
 
