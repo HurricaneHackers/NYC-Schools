@@ -11,6 +11,8 @@ if (!empty($bn)) {
 
 	if (!empty($check)) {
 
+		$name = $check['name'];
+		$name = ucwords(strtolower($name));
 		$r_name = $check['receiving_name'];
 		$r_name = ucwords(strtolower($r_name));
 		$r_address = $check['receiving_address'];
@@ -18,12 +20,12 @@ if (!empty($bn)) {
 		$r_studentopen = $check['studentopen'];
 		$r_grades = ucwords(strtolower($check['program']));
 
-		$response = "$r_grades relocated to $r_name at $r_address " . check_date($r_studentopen);
+		$response = "$name: $r_grades relocated to $r_name at $r_address " . check_date($r_studentopen);
 
 	}
 	else {
 
-		$response = "School open as normal." . ' ' . check_date('Monday November 11');
+		$response = "$name: open as normal." . ' ' . check_date('Monday November 11');
 
 	}
 
@@ -102,17 +104,22 @@ function curl_to_json($url) {
 	
 }
 
-//checks to see if open date has passed, changes message accordingly
+//checks to see if open date has passed by a week, returns appropriate message
 function check_date($open_date) {
   
   $open_date_secs = strtotime($open_date);
   
   if ($open_date_secs > time()) {
-	return "Opens on " . $open_date ;
+	  return "Opens on " . $open_date ".";
 	}
-  else {
-	return "Opened on " . $open_date;
+	//if it has been less than a week since the school opened show opening date
+	elseif ($open_date_secs + 604800 > time()) {
+ 	  return "Opened on " . $open_date ".";
 	}	
+	//else show nothing
+	else {
+	  return "";
+	}
 }
 
 
