@@ -9,19 +9,41 @@ if (!empty($school)) {
 	$bn = $school['locationCode'];
 	$name = ucwords(strtolower($school['name']));
 		
-	$check = search_impacted_schools($bn);
+	$impacted = search_impacted_schools($bn);
 
 
-	if (!empty($check)) {
+	if (!empty($impacted[0]['receiving_bn'])) {
 
-		$r_name = $check['receiving_name'];
-		$r_name = ucwords(strtolower($r_name));
-		$r_address = $check['receiving_address'];
-		$r_address = ucwords(strtolower($r_address));
-		$r_studentopen = $check['studentopen'];
-		$r_grades = ucwords(strtolower($check['program']));
+		$count = 1;
+		foreach ($impacted as $check) {
+			
+			$display_name = ($count == 1) ? "$name:" : ' / ';
+			
+			$r_name = $check['receiving_name'];
+			$r_name = ucwords(strtolower($r_name));
+			$r_address = $check['receiving_address'];
+			$r_address = ucwords(strtolower($r_address));
+			$r_studentopen = $check['studentopen'];
+			$r_grades = ucwords(strtolower($check['program']));
 
-		$response = "$name: $r_grades relocated to $r_name at $r_address " . check_date($r_studentopen);
+			$response .= "$display_name $r_grades relocated to $r_name at $r_address " . check_date($r_studentopen);			
+			
+			$count++;
+		}
+
+
+	}
+	elseif (!empty($impacted[0]['studentopen'])) {
+
+		foreach ($impacted as $check) {
+			
+			$r_studentopen = $check['studentopen'];
+			$r_grades = ucwords(strtolower($check['program']));
+
+			$response .= "$name: $r_grades to return $r_studentopen";			
+			
+		}
+
 
 	}
 	else {
@@ -53,15 +75,15 @@ function search_impacted_schools($bn) {
 	
 //	https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=sandy_impacted_nyc_school_status&query=select%20*%20from%20%60swdata%60%20where%20bn%20%3D%20'M696'
 	
-	$query = "select * from `swdata` where bn = '$bn' limit 1";		
+	$query = "select * from `swdata` where bn = '$bn'";		
 	$query = urlencode($query);
 
 	$url = "https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=sandy_impacted_nyc_school_status&query=$query";		
 
 	$data = curl_to_json($url);	
 	
-	if (!empty($data[0]['receiving_bn'])) {
-		return $data[0];
+	if (!empty($data)) {
+		return $data;
 	}
 	else {
 		return false;
