@@ -19,12 +19,12 @@ if (!empty($bn)) {
 		$monday = new DateTime('11/5/2012');
 	
 
-		$response = "Relocated to " . $r_name . ' at ' . $r_address . check_date($r_studentopen);
+		$response = "Relocated to " . $r_name . ' at ' . $r_address . ' ' . check_date($r_studentopen);
 
 	}
 	else {
 
-		$response = "School open as normal." . check_date($monday);
+		$response = "School open as normal." . ' ' . check_date($monday);
 
 	}
 
