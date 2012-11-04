@@ -16,8 +16,9 @@ if (!empty($bn)) {
 		$r_address = $check['receiving_address'];
 		$r_address = ucwords(strtolower($r_address));
 		$r_studentopen = $check['studentopen'];
+		$r_grades = ucwords(strtolower($check['program']));
 
-		$response = "Relocated to " . $r_name . ' at ' . $r_address . ' ' . check_date($r_studentopen);
+		$response = "$r_grades relocated to $r_name at $r_address " . check_date($r_studentopen);
 
 	}
 	else {
