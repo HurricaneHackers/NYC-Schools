@@ -1,0 +1,1 @@
+See https://hackpad.com/DE7G6wotaHv##hurricanehackers---schools-open/closed
