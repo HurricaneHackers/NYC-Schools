@@ -74,7 +74,7 @@ function search_schools($search) {
 
 	$query = urlencode($search);
 
-	$url = "http://schoolsstg.nycenet.edu/SchoolSearch/services/schoolrpc.ashx/schoolSearch?search=$query";		
+	$url = "schools.nyc.gov/SchoolSearch/services/schoolrpc.ashx/schoolSearch?search=$query";		
 
 	$data = curl_to_json($url);	
 	
@@ -110,7 +110,12 @@ function check_date($open_date) {
   $open_date_secs = strtotime($open_date);
   $today_secs = strtotime($today);
   
-  ($open_date_secs < $today_secs) ? return "Opens on: " . $open_date : return "Opened on: " . $open_date;
+  if ($open_date_secs < $today_secs) {
+	return "Opens on: " . $open_date ;
+	}
+  else {
+	return "Opened on: " . $open_date;
+	}	
 }
 
 
