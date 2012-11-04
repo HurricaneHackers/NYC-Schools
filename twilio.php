@@ -69,8 +69,8 @@ function search_schools($search) {
 
 	$data = curl_to_json($url);	
 	
-	if (!empty($data['result']['items'][0]['dUSInformation']['locationCode'])) {
-		return $data['result']['items'][0]['dUSInformation']['locationCode']; //['items'][0]['dUSInformation']['locationCode'];
+	if (!empty($data['result']['items'][0]['locationCode'])) {
+		return $data['result']['items'][0]['locationCode']; //['items'][0]['dUSInformation']['locationCode'];
 	}
 	else {
 		return false;
