@@ -108,10 +108,10 @@ function check_date($open_date) {
   $open_date_secs = strtotime($open_date);
   
   if ($open_date_secs > time()) {
-	return "Opens on: " . $open_date ;
+	return "Opens on " . $open_date ;
 	}
   else {
-	return "Opened on: " . $open_date;
+	return "Opened on " . $open_date;
 	}	
 }
 
