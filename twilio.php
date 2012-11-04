@@ -17,7 +17,7 @@ if (!empty($bn)) {
 		$r_studentopen = $check['studentopen'];		
 	
 
-		$response = "School has been relocated to " . $r_name . ' at ' . $r_address . '. Opens for students on ' . $r_studentopen;
+		$response = "School relocated to " . $r_name . ' at ' . $r_address . '. Open for students ' . $r_studentopen;
 
 	}
 	else {
