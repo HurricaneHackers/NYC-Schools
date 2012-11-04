@@ -110,7 +110,7 @@ function check_date($open_date) {
   $open_date_secs = strtotime($open_date);
   $today_secs = strtotime($today);
   
-  ($open_date_secs < $today_secs) ? return "Opens on: " . $open_date : "Opened on: " . $open_date;
+  ($open_date_secs < $today_secs) ? return "Opens on: " . $open_date : return "Opened on: " . $open_date;
 }
 
 
