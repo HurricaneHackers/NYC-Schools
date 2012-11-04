@@ -14,15 +14,17 @@ if (!empty($bn)) {
 		$r_name = ucwords(strtolower($r_name));
 		$r_address = $check['receiving_address'];
 		$r_address = ucwords(strtolower($r_address));
-		$r_studentopen = $check['studentopen'];		
+		$r_studentopen = $check['studentopen'];
+		
+		$monday = new DateTime('11/5/2012');
 	
 
-		$response = "Relocated to " . $r_name . ' at ' . $r_address . '. Opens on: ' . $r_studentopen;
+		$response = "Relocated to " . $r_name . ' at ' . $r_address . check_date($r_studentopen);
 
 	}
 	else {
 
-		$response = "School open as normal";
+		$response = "School open as normal." . check_date($monday);
 
 	}
 
@@ -99,6 +101,16 @@ function curl_to_json($url) {
 
 	return json_decode($data, true);	
 	
+}
+
+//checks to see if open date has passed, changes message accordingly
+function check_date($r_studentopen) {
+  $today = date('m/d/Y');
+  
+  $r_studentopen_secs = strtotime($r_studentopen);
+  $today_secs = strtotime($today);
+  
+  ($r_studentopen_secs < $today_secs) ? return "Opens on: " . $r_studentopen_secs : "Opened on: " . $r_studentopen_secs;
 }
 
 
